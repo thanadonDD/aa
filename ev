@@ -1,0 +1,84 @@
+#define ENA D0
+#define IN1 D1
+#define IN2 D2
+#define IN3 D3
+#define IN4 D4
+#define ENB D5
+
+int x = 0;
+int y = 0;
+
+
+void setup()
+{
+  Serial.begin(115200);
+  pinMode(ENA, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  pinMode(ENB, OUTPUT);
+}
+
+void loop() {
+  movecar();
+}
+
+void movecar() {
+  if (y > 150 and x){
+    forward();
+  }else if(y < 100){
+    backward();
+  }else if(x > 150){
+    turnright();
+  }else if(x < 100){
+    turnleft();
+  }else{
+    stop();
+  }
+
+
+}
+
+void forward() {
+  analogWrite(ENA, y);
+  analogWrite(ENB, y);
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+void backward() {
+  analogWrite(ENA, (y-255)*-1);
+  analogWrite(ENB, (y-255)*-1);
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}
+
+void turnleft() {
+  analogWrite(ENA, ((x-255)*-1));
+  analogWrite(ENB, ((x-255)*-1));
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+void turnright() {
+  analogWrite(ENA, x);
+  analogWrite(ENB, x);
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}
+
+void stop() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+}
